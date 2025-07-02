@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Коваленко Банк – Займы под 30%</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    header {
+      background: #1e293b;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .feature {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 220px;
+      text-align: center;
+    }
+
+    .calculator input {
+      padding: 10px;
+      width: 100%;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    form {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    form input, form button {
+      padding: 12px;
+      font-size: 16px;
+    }
+
+    form button {
+      background: #1e40af;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #e2e8f0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Коваленко Банк</h1>
+  <p>Деньги в займ под 30% годовых – быстро и без лишней бюрократии!</p>
+</header>
+
+<section>
+  <h2>Наши преимущества</h2>
+  <div class="features">
+    <div class="feature">
+      <strong>Просто</strong>
+      <p>Минимум документов – нужен только паспорт</p>
+    </div>
+    <div class="feature">
+      <strong>Быстро</strong>
+      <p>Займ одобряется за 15 минут</p>
+    </div>
+    <div class="feature">
+      <strong>30% годовых</strong>
+      <p>Фиксированная ставка – без скрытых платежей</p>
+    </div>
+  </div>
+</section>
+
+<section class="calculator">
+  <h2>Рассчитайте займ</h2>
+  <label for="amount">Сумма займа (₽):</label>
+  <input type="number" id="amount" placeholder="Например, 100000"/>
+
+  <label for="term">Срок (месяцев):</label>
+  <input type="number" id="term" placeholder="Например, 12"/>
+
+  <p id="result" style="margin-top: 15px;"><em>Введите данные для расчета</em></p>
+</section>
+
+<section>
+  <h2>Оставьте заявку</h2>
+  <form onsubmit="event.preventDefault(); alert('Заявка отправлена! Мы с вами свяжемся.');">
+    <input type="text" placeholder="Ваше имя" required/>
+    <input type="tel" placeholder="Телефон" required/>
+    <input type="email" placeholder="Email (необязательно)"/>
+    <button type="submit">Отправить заявку</button>
+  </form>
+</section>
+
+<footer>
+  © 2025 Коваленко Банк. Не является настоящим банком. Все займы выдаются частными инвесторами.
+</footer>
+
+<script>
+  const amountInput = document.getElementById('amount');
+  const termInput = document.getElementById('term');
+  const result = document.getElementById('result');
+
+  function calculateLoan() {
+    const amount = parseFloat(amountInput.value);
+    const term = parseFloat(termInput.value);
+
+    if (isNaN(amount) || isNaN(term) || amount <= 0 || term <= 0) {
+      result.textContent = 'Введите корректные данные';
+      return;
+    }
+
+    const yearlyRate = 0.30;
+    const monthlyRate = yearlyRate / 12;
+    const monthlyPayment = (amount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -term));
+    const total = monthlyPayment * term;
+
+    result.innerHTML = `
+      Ежемесячный платеж: <strong>${monthlyPayment.toFixed(2)}₽</strong><br/>
+      Общая сумма к возврату: <strong>${total.toFixed(2)}₽</strong>
+    `;
+  }
+
+  amountInput.addEventListener('input', calculateLoan);
+  termInput.addEventListener('input', calculateLoan);
+</script>
+
+</body>
+</html>
